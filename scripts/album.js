@@ -28,6 +28,21 @@ var albumMarconi = {
      ]
  };
 
+var albumEickenhorst = {
+     title: 'Chickenhorse',
+     artist: 'Alyssa Eickenhorst',
+     label: 'Death Metal',
+     year: '1997',
+     albumArtUrl: 'assets/images/album_covers/22.png',
+     songs: [
+         { title: 'Down', duration: '12:34' },
+         { title: 'Cold Hearted', duration: '2:01' },
+         { title: 'A Place to Live', duration: '5:00' },
+         { title: 'Cannot Fight the Calling', duration: '6:12'},
+         { title: 'Metal in the Air', duration: '1:15'}
+     ]
+ };
+
 var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -39,26 +54,37 @@ var createSongRow = function(songNumber, songName, songLength) {
  
      return template;
  };
-
+var albumImage;
 var setCurrentAlbum = function(album) {
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+    
+     var albumTitle = document.getElementsByClassName('album-view-title')[0];
+     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+     albumImage = document.getElementsByClassName('album-cover-art')[0];
+     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
  
-    albumTitle.firstChild.nodeValue = album.title;
-    albumArtist.firstChild.nodeValue = album.artist;
-    albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
-    albumImage.setAttribute('src', album.albumArtUrl);
+     albumTitle.firstChild.nodeValue = album.title;
+     albumArtist.firstChild.nodeValue = album.artist;
+     albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
+     albumImage.setAttribute('src', album.albumArtUrl);
+     albumSongList.innerHTML = '';
  
-    albumSongList.innerHTML = '';
- 
-    for (var i = 0; i < album.songs.length; i++) {
+     for (var i = 0; i < album.songs.length; i++) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
  
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
- };
+
+var albums = [albumPicasso, albumMarconi, albumEickenhorst];
+var ind = 1;
+     
+albumImage.addEventListener('click', function(event){
+    setCurrentAlbum(albums[ind]);
+    ind++;
+    if(ind==albums.length){
+        ind=0;
+    }
+ });
+};
